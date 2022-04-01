@@ -1,0 +1,15 @@
+require('dotenv-safe').config()
+
+const {
+  BCRYPT_SALT_ROUNDS,
+  JWT_SECRET_ACCESS_TOKEN,
+  JWT_SECRET_REFRESH_TOKEN,
+  CRYPTO_JS_SECRET_TOKEN,
+} = process.env
+
+module.exports = {
+  BCRYPT_SALT_ROUNDS,
+  JWT_SECRET_ACCESS_TOKEN,
+  JWT_SECRET_REFRESH_TOKEN,
+  CRYPTO_JS_SECRET_TOKEN,
+}
