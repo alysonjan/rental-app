@@ -7,5 +7,8 @@ module.exports = {
   USERNAME_REQ: 'Must be at least 5 characters long',
   PASSWORD_REQ: 'Must be at least 8 characters long',
   FIELD_IS_REQUIRED: 'Field is required',
-  EMAIL_OR_USERNAME_ALREADY_EXISTS: 'Email or Username are already exists',
+  EMAIL_ALREADY_EXISTS: 'Email is already exists',
+  SIGN_UP_SUCCESS_MSG: 'Account Successfully Created!',
+  INVALID_EMAIL_OR_PASSWORD:
+    'The email or password you entered is incorrect or the account does not exist.',
 }
