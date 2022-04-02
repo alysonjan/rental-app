@@ -13,7 +13,11 @@ initExpressMiddleware(app)
 app.get('/', (_, res) => res.send('🔥Server is on fire🔥'))
 
 // Routes
-app.use('/register', require('./routes/register'))
+app.use('/api/user', require('./routes/user'))
+
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message })
+})
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB🚀⚡')
