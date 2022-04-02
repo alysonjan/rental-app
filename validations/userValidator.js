@@ -10,7 +10,7 @@ const {
   PASSWORD_REQ,
 } = require('../constants/messages')
 
-exports.VALIDATE_NEW_USER_INPUT = [
+exports.VALIDATE_SIGN_UP_INPUT = [
   check('lastname', FIELD_IS_REQUIRED)
     .trim()
     .not()
@@ -41,6 +41,33 @@ exports.VALIDATE_NEW_USER_INPUT = [
     .isString()
     .isLength({ min: 3 })
     .withMessage(USERNAME_REQ)
+    .bail(),
+  check('password', FIELD_IS_REQUIRED)
+    .trim()
+    .not()
+    .isEmpty()
+    .isString()
+    .isLength({ min: 8 })
+    .withMessage(PASSWORD_REQ)
+    .matches(PASSWORD_REGEX)
+    .withMessage(INVALID_PASSWORD_REQ)
+    .bail(),
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array({ onlyFirstError: true }) })
+    }
+    return next()
+  },
+]
+
+exports.VALIDATE_SIGN_IN_INPUT = [
+  check('email', FIELD_IS_REQUIRED)
+    .trim()
+    .not()
+    .isEmpty()
+    .isEmail()
+    .withMessage(ENTER_A_VALID_EMAIL)
     .bail(),
   check('password', FIELD_IS_REQUIRED)
     .trim()
