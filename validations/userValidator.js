@@ -87,3 +87,20 @@ exports.VALIDATE_SIGN_IN_INPUT = [
     return next()
   },
 ]
+
+exports.VALIDATE_FORGET_PASSWORD_INPUT = [
+  check('email', FIELD_IS_REQUIRED)
+    .trim()
+    .not()
+    .isEmpty()
+    .isEmail()
+    .withMessage(ENTER_A_VALID_EMAIL)
+    .bail(),
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array({ onlyFirstError: true }) })
+    }
+    return next()
+  },
+]
