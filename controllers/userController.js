@@ -3,9 +3,13 @@ const {
   EMAIL_ALREADY_EXISTS,
   SIGN_UP_SUCCESS_MSG,
   INVALID_EMAIL_OR_PASSWORD,
+  RESET_PASSWORD_MSG,
+  REQUEST_ERROR_MSG,
 } = require('../constants/messages')
 const { encryptPassword, decryptPassword } = require('../utils/bcrypt')
 const { createAccessToken, createRefreshToken } = require('../utils/jwt')
+const sendResetPasswordMail = require('../sendgrid/sendMail')
+const { resetPasswordUri } = require('../configs/paths')
 
 const checkIfEmailExists = async email => {
   const checkEmail = await User.findOne({ email })
@@ -75,4 +79,15 @@ const signIn = async (req, res) => {
   return null
 }
 
-module.exports = { signUp, signIn }
+const forgetPassword = async (req, res) => {
+  const { email } = req.body
+  try {
+    await sendResetPasswordMail(email, resetPasswordUri)
+    return res.status(200).json({ message: RESET_PASSWORD_MSG })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+    console.log(err)
+  }
+}
+
+module.exports = { signUp, signIn, forgetPassword }

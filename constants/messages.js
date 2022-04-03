@@ -11,4 +11,6 @@ module.exports = {
   SIGN_UP_SUCCESS_MSG: 'Account Successfully Created!',
   INVALID_EMAIL_OR_PASSWORD:
     'The email or password you entered is incorrect or the account does not exist.',
+  RESET_PASSWORD_MSG: 'Successfully sent to your email.',
+  REQUEST_ERROR_MSG: 'Something went wrong.',
 }
