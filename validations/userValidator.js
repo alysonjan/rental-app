@@ -8,6 +8,7 @@ const {
   INVALID_PASSWORD_REQ,
   USERNAME_REQ,
   PASSWORD_REQ,
+  REQUEST_ERROR_MSG,
 } = require('../constants/messages')
 
 exports.VALIDATE_SIGN_UP_INPUT = [
@@ -95,6 +96,35 @@ exports.VALIDATE_FORGET_PASSWORD_INPUT = [
     .isEmpty()
     .isEmail()
     .withMessage(ENTER_A_VALID_EMAIL)
+    .bail(),
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array({ onlyFirstError: true }) })
+    }
+    return next()
+  },
+]
+
+exports.VALIDATE_RESET_PASSWORD_INPUT = [
+  check('userId', FIELD_IS_REQUIRED)
+    .isMongoId()
+    .withMessage(REQUEST_ERROR_MSG)
+    .trim()
+    .not()
+    .isEmpty()
+    .isAlphanumeric()
+    .withMessage(REQUEST_ERROR_MSG)
+    .bail(),
+  check('newPassword', FIELD_IS_REQUIRED)
+    .trim()
+    .not()
+    .isEmpty()
+    .isString()
+    .isLength({ min: 8 })
+    .withMessage(PASSWORD_REQ)
+    .matches(PASSWORD_REGEX)
+    .withMessage(INVALID_PASSWORD_REQ)
     .bail(),
   (req, res, next) => {
     const errors = validationResult(req)
