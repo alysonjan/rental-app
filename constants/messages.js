@@ -13,4 +13,6 @@ module.exports = {
     'The email or password you entered is incorrect or the account does not exist.',
   RESET_PASSWORD_MSG: 'Successfully sent to your email.',
   REQUEST_ERROR_MSG: 'Something went wrong.',
+  INVALID_EMAIL: 'Invalid Email',
+  UPDATE_PASSWORD_SUCCESS_MSG: 'Successfully changed Password',
 }
