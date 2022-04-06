@@ -10,6 +10,7 @@ const userSchema = new Schema(
       type: String,
       unique: true,
     },
+    phone_number: String,
     username: String,
     password: String,
     roles: {
