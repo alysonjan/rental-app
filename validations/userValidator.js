@@ -9,6 +9,7 @@ const {
   USERNAME_REQ,
   PASSWORD_REQ,
   REQUEST_ERROR_MSG,
+  INVALID_PHONE_NUMBER,
 } = require('../constants/messages')
 
 exports.VALIDATE_SIGN_UP_INPUT = [
@@ -34,6 +35,13 @@ exports.VALIDATE_SIGN_UP_INPUT = [
     .isEmpty()
     .isEmail()
     .withMessage(ENTER_A_VALID_EMAIL)
+    .bail(),
+  check('phone_number', FIELD_IS_REQUIRED)
+    .trim()
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage(INVALID_PHONE_NUMBER)
     .bail(),
   check('username', FIELD_IS_REQUIRED)
     .trim()
