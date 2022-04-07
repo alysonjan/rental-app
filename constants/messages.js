@@ -8,11 +8,18 @@ module.exports = {
   PASSWORD_REQ: 'Must be at least 8 characters long',
   FIELD_IS_REQUIRED: 'Field is required',
   EMAIL_ALREADY_EXISTS: 'Email is already exists',
+  EMAIL_OR_USERNAME_ALREADY_EXISTS: 'Email or Username is already exists',
   SIGN_UP_SUCCESS_MSG: 'Account Successfully Created!',
   INVALID_EMAIL_OR_PASSWORD:
     'The email or password you entered is incorrect or the account does not exist.',
   RESET_PASSWORD_MSG: 'Successfully sent to your email.',
   REQUEST_ERROR_MSG: 'Something went wrong.',
   INVALID_EMAIL: 'Invalid Email',
+  INVALID_PHONE_NUMBER: 'Invalid Phone number',
   UPDATE_PASSWORD_SUCCESS_MSG: 'Successfully changed Password',
+  IS_DATE_ERR_MSG: 'Please Enter a valid Date format.',
+  IS_NUMBER_ERR_MSG: 'Please Enter a Numeric only.',
+  INVALID_TOKEN: 'Invalid Token.',
+  UNAUTHORIZED_MSG: 'You are not authorized to process this request.',
+  CREATE_LISTING_SUCESS_MSG: 'Sucessfully create new listing.',
 }
