@@ -11,7 +11,10 @@ const userSchema = new Schema(
       unique: true,
     },
     phone_number: String,
-    username: String,
+    username: {
+      type: String,
+      unique: true,
+    },
     password: String,
     roles: {
       User: {
