@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const initExpressMiddleware = require('./middlewares/express')
 const DatabaseConnection = require('./configs/mongodb')
 const { PORT } = require('./configs/server')
+const verifyJwt = require('./middlewares/verifyJwt')
 
 const app = express()
 
@@ -12,8 +13,12 @@ initExpressMiddleware(app)
 
 app.get('/', (_, res) => res.send('🔥Server is on fire🔥'))
 
-// Routes
+// public Routes
 app.use('/api/user', require('./routes/user'))
+
+// auth Routes
+app.use(verifyJwt)
+app.use('/api/listing', require('./routes/listing'))
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message })
