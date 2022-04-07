@@ -74,7 +74,9 @@ const signIn = async (req, res) => {
       const refreshToken = cookies.jwt
       const foundToken = await User.findOne({ refreshToken }).exec()
 
-      if (!foundToken) newRefreshTokenArray = []
+      if (!foundToken) {
+        newRefreshTokenArray = []
+      }
       res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
     }
 
@@ -83,7 +85,7 @@ const signIn = async (req, res) => {
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
       sameSite: 'None',
-      secure: true,
+      // secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     })
     res.json({ accessToken })
@@ -128,4 +130,24 @@ const resetPassword = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
-module.exports = { signUp, signIn, forgetPassword, resetPassword, findByUsername }
+
+const logoutHandler = async (req, res) => {
+  const cookies = req.cookies
+  if (!cookies?.jwt) return res.sendStatus(204)
+
+  const refreshToken = cookies.jwt
+
+  const foundUser = await User.findOne({ refreshToken }).exec()
+  if (!foundUser) {
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
+    return res.sendStatus(204)
+  }
+
+  foundUser.refreshToken = foundUser.refreshToken.filter(rt => rt !== refreshToken)
+  await foundUser.save()
+
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
+  res.sendStatus(204)
+}
+
+module.exports = { signUp, signIn, forgetPassword, resetPassword, findByUsername, logoutHandler }
