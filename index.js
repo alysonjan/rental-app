@@ -15,6 +15,7 @@ app.get('/', (_, res) => res.send('🔥Server is on fire🔥'))
 
 // public Routes
 app.use('/api/user', require('./routes/user'))
+app.use('/api/refresh', require('./routes/refreshToken'))
 
 // auth Routes
 app.use(verifyJwt)
