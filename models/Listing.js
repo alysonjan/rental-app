@@ -14,7 +14,7 @@ const ListingSchema = new Schema(
     beds: String,
     bathrooms: String,
     price_per_night: Number,
-    total_occupancy: Number,
+    total_occupancy: String,
     amenities: [String],
     published_at: {
       type: Date,

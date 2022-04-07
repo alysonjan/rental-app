@@ -21,7 +21,7 @@ exports.VALIDATE_CREATE_LISTING_INPUT = [
     .trim()
     .not()
     .isEmpty()
-    .isNumeric()
+    .isString()
     .withMessage(IS_NUMBER_ERR_MSG)
     .bail(),
   check('amenities', FIELD_IS_REQUIRED).isArray().notEmpty().bail(),
