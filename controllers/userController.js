@@ -1,6 +1,6 @@
 const User = require('../models/User')
 const {
-  EMAIL_ALREADY_EXISTS,
+  EMAIL_OR_USERNAME_ALREADY_EXISTS,
   SIGN_UP_SUCCESS_MSG,
   INVALID_EMAIL_OR_PASSWORD,
   RESET_PASSWORD_MSG,
@@ -22,25 +22,33 @@ const findByUserId = async id => {
   const userId = await User.findById(id).exec()
   return userId
 }
+const findByUsername = async username => {
+  const userName = await User.findOne({ username }).exec()
+  return userName
+}
 
 const signUp = async (req, res) => {
-  const { lastname, firstname, email, username, password } = req.body
+  const { lastname, firstname, email, phone_number, username, password, roles } = req.body
 
   try {
     const userEmail = await findByUserEmail(email)
-    if (userEmail) return res.status(409).json({ message: EMAIL_ALREADY_EXISTS })
+    const userName = await findByUsername(username)
+
+    if (userEmail || userName)
+      return res.status(409).json({ message: EMAIL_OR_USERNAME_ALREADY_EXISTS })
     const encryptedPassword = await encryptPassword(password)
     const newUser = await User.create({
       lastname,
       firstname,
       email,
+      phone_number,
       username,
       password: encryptedPassword,
+      roles,
     })
     if (newUser) return res.status(201).json({ message: SIGN_UP_SUCCESS_MSG })
   } catch (err) {
     res.status(500).json({ message: err.message })
-    console.log(err)
   }
 }
 
@@ -101,7 +109,7 @@ const resetPassword = async (req, res) => {
   const { userId, newPassword } = req.body
   try {
     const checkUserId = await findByUserId(userId)
-    if (!checkUserId) res.status(400).json({ message: REQUEST_ERROR_MSG })
+    if (!checkUserId) return res.status(400).json({ message: REQUEST_ERROR_MSG })
     const newEncryptedPassword = await encryptPassword(newPassword)
     const updatePassword = User.findByIdAndUpdate(
       {
@@ -118,7 +126,6 @@ const resetPassword = async (req, res) => {
     return res.status(200).json({ message: UPDATE_PASSWORD_SUCCESS_MSG })
   } catch (err) {
     res.status(500).json({ message: err.message })
-    console.log(err)
   }
 }
-module.exports = { signUp, signIn, forgetPassword, resetPassword }
+module.exports = { signUp, signIn, forgetPassword, resetPassword, findByUsername }
