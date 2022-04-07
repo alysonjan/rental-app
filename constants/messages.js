@@ -22,4 +22,5 @@ module.exports = {
   INVALID_TOKEN: 'Invalid Token.',
   UNAUTHORIZED_MSG: 'You are not authorized to process this request.',
   CREATE_LISTING_SUCESS_MSG: 'Sucessfully create new listing.',
+  NO_LISTING_FOUND: 'No listing found.',
 }
