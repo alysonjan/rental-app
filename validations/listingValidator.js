@@ -1,7 +1,8 @@
-const { check, validationResult } = require('express-validator')
-const { FIELD_IS_REQUIRED, IS_DATE_ERR_MSG, IS_NUMBER_ERR_MSG } = require('../constants/messages')
+const { check, param, validationResult } = require('express-validator')
+const { FIELD_IS_REQUIRED, IS_NUMBER_ERR_MSG, REQUEST_ERROR_MSG } = require('../constants/messages')
 
 exports.VALIDATE_CREATE_LISTING_INPUT = [
+  param('id', REQUEST_ERROR_MSG).isMongoId().not().isEmpty().bail(),
   check('imageUrl', FIELD_IS_REQUIRED).isArray().notEmpty().bail(),
   check('name', FIELD_IS_REQUIRED).trim().not().isEmpty().isString().bail(),
   check('address', FIELD_IS_REQUIRED).trim().not().isEmpty().isString().bail(),
